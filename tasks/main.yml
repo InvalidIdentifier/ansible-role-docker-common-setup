@@ -175,4 +175,5 @@
     docker network create "web" --driver=bridge --subnet "172.21.0.0/16" --gateway "172.21.0.1"
   when: 
     - ansible_virtualization_type != "docker"
+    - not docker_network_exists
 ...
