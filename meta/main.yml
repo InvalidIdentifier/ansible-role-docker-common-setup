@@ -1,0 +1,15 @@
+galaxy_info:
+  role_name: docker_common_setup
+  author: invalididentifier
+  description: installs docker, sets up directories and docker network
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: 2.9
+
+  galaxy_tags: []
+
+dependencies: []
+
+collections:
+  - community.docker

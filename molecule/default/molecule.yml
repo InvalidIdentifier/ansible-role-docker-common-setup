@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+
+driver:
+  name: docker
+
+platforms:
+  - name: instance
+    image: debian:bookworm
+    dockerfile: Dockerfile.j2
+    command: sleep infinity
+    privileged: true
+    pre_build_image: false
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      instance:
+        molecule_run: true
+  env:
+    ANSIBLE_PYTHON_INTERPRETER: auto_silent
+  lint: |
+    set -e
+    yamllint .
+    ansible-lint
+
+verifier:
+  name: ansible

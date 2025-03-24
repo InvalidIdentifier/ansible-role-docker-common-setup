@@ -1,0 +1,5 @@
+---
+- name: Apply ansible-role_docker-common-setup
+  hosts: all
+  roles:
+    - role: invalididentifier.docker_common_setup
