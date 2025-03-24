@@ -160,14 +160,14 @@
 # check if docker network already exists
 - name: check if docker network already exists
   command: >
-    {% raw %}docker network ls --filter name=^{{ vlan_docker_name }}$ --format '{{.Name}}'{% endraw %}
+    {% raw %}docker network ls --filter name=^web$ --format '{{.Name}}'{% endraw %}
   register: docker_network_check
   changed_when: false
   failed_when: false
 
 - name: set fact if docker network exists
   set_fact:
-    docker_network_exists: "{{ docker_network_check.stdout == '{{ vlan_docker_name }}' }}"
+    docker_network_exists: "{{ docker_network_check.stdout == 'web' }}"
 
 # create docker network
 - name: create docker network
