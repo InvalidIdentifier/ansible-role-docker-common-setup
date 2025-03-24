@@ -167,7 +167,7 @@
 
 - name: set fact if docker network exists
   set_fact:
-    docker_network_exists: "{{ docker_network_check.stdout == 'web' }}"
+    docker_network_exists: "{{ 'web' in docker_network_check.stdout_lines }}"
 
 # create docker network
 - name: create docker network
