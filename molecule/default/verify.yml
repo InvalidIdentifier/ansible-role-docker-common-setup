@@ -1,14 +1,14 @@
 ---
-- name: Verify
+- name: verify
   hosts: all
   gather_facts: false
   tasks:
-    - name: Überprüfe, ob Docker installiert ist
+    - name: check if docker is installed
       ansible.builtin.command: docker --version
       register: docker_version
       changed_when: false
       failed_when: docker_version.rc != 0
 
-    - name: Ausgabe anzeigen
+    - name: output docker version
       ansible.builtin.debug:
         var: docker_version.stdout
