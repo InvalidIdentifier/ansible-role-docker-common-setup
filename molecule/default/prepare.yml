@@ -6,10 +6,3 @@
         name: python3
         state: present
         update_cache: yes
-
-    - name: print current user
-      command: whoami
-      register: whoami_result
-
-    - debug:
-        var: whoami_result.stdout
