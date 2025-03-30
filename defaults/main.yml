@@ -2,6 +2,3 @@
 docker_config_file: /etc/docker/daemon.json
 new_docker_dir: "/data/docker"
 bindmount_dir: "/data/bindmounts"
-vlan_docker_name: "{{ lookup('env', 'VLAN_DOCKER_NAME') }}"
-vlan_docker_subnet: "{{ lookup('env', 'VLAN_DOCKER_SUBNET') }}"
-vlan_docker_gw: "{{ lookup('env', 'VLAN_DOCKER_GW') }}"
