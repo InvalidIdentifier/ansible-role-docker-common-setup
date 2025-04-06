@@ -9,6 +9,16 @@
       changed_when: false
       failed_when: docker_version.rc != 0
 
+    - name: check if ctop is installed
+      ansible.builtin.command: ctop -v
+      register: ctop_version
+      changed_when: false
+      failed_when: ctop_version.rc != 0
+
     - name: output docker version
       ansible.builtin.debug:
         var: docker_version.stdout
+
+    - name: output ctop version
+      ansible.builtin.debug:
+        var: ctop_version.stdout

@@ -9,12 +9,15 @@
       - lsb-release
     state: present
 
-# create a directory to store the docker gpg key
-- name: create directory for apt keyrings
+# create a directory to store the gpg keys for docker and ctop
+- name: create directory for gpg keys
   file:
-    path: /etc/apt/keyrings
+    path: "{{ item }}"
     state: directory
     mode: '0755'
+  loop:
+    - /etc/apt/keyrings
+    - /usr/share/keyrings/
 
 # download docker's gpg key for repository verification
 - name: download docker official gpg key
@@ -34,17 +37,17 @@
 
 # get gpg key for ctop
 - name: download azlux gpg key
-  get_url:
-    url: https://azlux.fr/repo.gpg.key
-    dest: /usr/share/keyrings/azlux-archive-keyring.gpg
-    mode: '0644'
+  ansible.builtin.shell: |
+    curl -fsSL https://azlux.fr/repo.gpg.key | gpg --dearmor -o /usr/share/keyrings/azlux-archive-keyring.gpg
+  args:
+    creates: /usr/share/keyrings/azlux-archive-keyring.gpg
 
 # add repo for ctop
 - name: add azlux repository
-  apt_repository:
-    repo: "deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian {{ ansible_lsb.codename }} main"
-    state: present
-    filename: azlux
+  shell: |
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian \
+      $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/azlux.list >/dev/null
 
 # update apt cache to reflect the newly added docker repository
 - name: update apt package index again
