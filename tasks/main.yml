@@ -32,6 +32,20 @@
   args:
     creates: /etc/apt/sources.list.d/docker.list
 
+# get gpg key for ctop
+- name: download azlux gpg key
+  get_url:
+    url: https://azlux.fr/repo.gpg.key
+    dest: /usr/share/keyrings/azlux-archive-keyring.gpg
+    mode: '0644'
+
+# add repo for ctop
+- name: add azlux repository
+  apt_repository:
+    repo: "deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian {{ ansible_lsb.codename }} main"
+    state: present
+    filename: azlux
+
 # update apt cache to reflect the newly added docker repository
 - name: update apt package index again
   apt:
@@ -71,6 +85,12 @@
     append: yes
   when: 
     - ansible_virtualization_type != "docker"
+
+# install ctop
+- name: install ctop
+  apt:
+    name: docker-ctop
+    state: present
 
 # create an alias for docker ps command
 - name: alias dops
