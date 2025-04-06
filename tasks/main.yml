@@ -9,21 +9,21 @@
       - lsb-release
     state: present
 
-# create a directory to store the Docker GPG key
+# create a directory to store the docker gpg key
 - name: create directory for apt keyrings
   file:
     path: /etc/apt/keyrings
     state: directory
     mode: '0755'
 
-# download Docker's GPG key for repository verification
+# download docker's gpg key for repository verification
 - name: download docker official gpg key
   get_url:
     url: https://download.docker.com/linux/debian/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
 
-# add Docker repository to apt sources
+# add docker repository to apt sources
 - name: add docker apt repository
   shell: |
     CODENAME=$(lsb_release -cs)
