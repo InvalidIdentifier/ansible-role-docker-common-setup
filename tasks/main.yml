@@ -63,6 +63,7 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
+      - docker-ctop
     state: present
 
 # ensure docker service is running and enabled
@@ -88,12 +89,6 @@
     append: yes
   when: 
     - ansible_virtualization_type != "docker"
-
-# install ctop
-- name: install ctop
-  apt:
-    name: docker-ctop
-    state: present
 
 # create an alias for docker ps command
 - name: alias dops

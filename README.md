@@ -32,8 +32,8 @@ No dependencies on other roles.
 ### Install Required Packages
 Installs essential packages like `ca-certificates`, `curl`, `gnupg`, and `lsb-release`.
 
-### Create Directory for Apt Keyrings
-Creates a directory to store the Docker GPG key.
+### Create Directory for GPG Keys
+Creates a directory to store the GPG keys of docker and ctop.
 
 ### Download Docker Official GPG Key
 Downloads Docker's GPG key for repository verification.
@@ -41,11 +41,17 @@ Downloads Docker's GPG key for repository verification.
 ### Add Docker Apt Repository
 Adds Docker's repository to apt sources.
 
+### Download ctop GPG Key
+Downloads ctop GPG key for repository verification.
+
+### Add ctop Repository
+Adds ctop repository to apt sources.
+
 ### Update Apt Package Index
 Updates the apt package index to reflect the newly added Docker repository.
 
 ### Install Docker Engine, CLI, Containerd, and Plugins
-Installs Docker Engine, CLI, Containerd, and related plugins.
+Installs Docker Engine, CLI, Containerd, and related plugins and ctop.
 
 ### Ensure Docker Service is Running and Enabled
 Ensures the Docker service is started and enabled to start at boot.
