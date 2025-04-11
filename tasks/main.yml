@@ -1,7 +1,7 @@
 ---
 # install essential packages for docker setup
 - name: install required packages
-  apt:
+  ansible.builtin.apt:
     name:
       - ca-certificates
       - curl
@@ -11,7 +11,7 @@
 
 # create a directory to store the gpg keys for docker and ctop
 - name: create directory for gpg keys
-  file:
+  ansible.builtin.file:
     path: "{{ item }}"
     state: directory
     mode: '0755'
@@ -21,14 +21,14 @@
 
 # download docker's gpg key for repository verification
 - name: download docker official gpg key
-  get_url:
+  ansible.builtin.get_url:
     url: https://download.docker.com/linux/debian/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
 
 # add docker repository to apt sources
 - name: add docker apt repository
-  shell: |
+  ansible.builtin.shell: |
     CODENAME=$(lsb_release -cs)
     if [[ "$CODENAME" == "testing" ]]; then CODENAME="bookworm"; fi
     echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian $CODENAME stable" > /etc/apt/sources.list.d/docker.list
@@ -44,19 +44,19 @@
 
 # add repo for ctop
 - name: add azlux repository
-  shell: |
+  ansible.builtin.shell: |
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian \
       $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/azlux.list >/dev/null
 
 # update apt cache to reflect the newly added docker repository
 - name: update apt package index again
-  apt:
+  ansible.builtin.apt:
     update_cache: yes
 
 # install docker engine, cli, containerd and plugins
 - name: install docker engine, cli, containerd and plugins
-  apt:
+  ansible.builtin.apt:
     name:
       - docker-ce
       - docker-ce-cli
@@ -92,7 +92,7 @@
 
 # create an alias for docker ps command
 - name: alias dops
-  lineinfile:
+  lineinansible.builtin.file:
     path: /home/user/.bashrc
     line: "{% raw %}alias dops='docker ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.RunningFor}}\\t{{.Status}}\\t{{.State}}\"'{% endraw %}"
     state: present
@@ -107,7 +107,7 @@
 
 # create new bindmount directory if necessary
 - name: create new bindmount directory if necessary
-  file:
+  ansible.builtin.file:
     path: "{{ bindmount_dir }}"
     state: directory
     owner: root
@@ -116,19 +116,19 @@
 
 # check if docker network already exists
 - name: check if docker network already exists
-  command: >
+  ansible.builtin.command: >
     {% raw %}docker network ls --filter name=^web$ --format '{{.Name}}'{% endraw %}
   register: docker_network_check
   changed_when: false
   failed_when: false
 
 - name: set fact if docker network exists
-  set_fact:
+  ansible.builtin.set_fact:
     docker_network_exists: "{{ 'web' in docker_network_check.stdout_lines }}"
 
 # create docker network
 - name: create docker network
-  command: >
+  ansible.builtin.command: >
     docker network create "web" --driver=bridge --subnet "172.21.0.0/16" --gateway "172.21.0.1"
   when: 
     - ansible_virtualization_type != "docker"
