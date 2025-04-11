@@ -92,7 +92,7 @@
 
 # create an alias for docker ps command
 - name: alias dops
-  lineinansible.builtin.file:
+  ansible.builtin.lineinfile:
     path: /home/user/.bashrc
     line: "{% raw %}alias dops='docker ps --format \"table {{.ID}}\\t{{.Names}}\\t{{.RunningFor}}\\t{{.Status}}\\t{{.State}}\"'{% endraw %}"
     state: present
