@@ -101,7 +101,7 @@
 
 # check if bindmount directory exists
 - name: check if bindmount directory exists
-  stat:
+  ansible.builtin.stat:
     path: "{{ bindmount_dir }}"
   register: docker_dir_check
 
