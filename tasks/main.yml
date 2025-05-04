@@ -109,7 +109,7 @@
     state: present
   when: 
     - ansible_virtualization_type != "docker"
-    - ansible_facts['ansible_eth0']['ipv4']['address'].startswith(vlan_infra)
+    - "'dmz' not in group_names"
 
 # mount fstab
 - name: mount all filesystems in /etc/fstab
