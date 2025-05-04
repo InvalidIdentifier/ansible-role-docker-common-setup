@@ -109,6 +109,7 @@
     state: present
   when: 
     - ansible_virtualization_type != "docker"
+    - ansible_default_ipv4.address == vlan_infra
 
 # mount fstab
 - name: mount all filesystems in /etc/fstab

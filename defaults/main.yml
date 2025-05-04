@@ -1,3 +1,4 @@
 ---
 bindmount_dir: "/data/bindmounts"
 base_host: "{{ lookup('env', 'GITLAB_HOST') }}"
+vlan_infra: "{{ lookup('env', 'VLAN_INFRA') }}"
