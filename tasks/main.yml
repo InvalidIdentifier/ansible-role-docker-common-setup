@@ -102,14 +102,14 @@
     - ansible_virtualization_type != "docker"
 
 # add nfs mount to fstab
-- name: alias dops
+- name: add nfs mounts to fstab
   ansible.builtin.lineinfile:
     path: /etc/fstab
     line: "{{ base_host }}:/mnt/raid/nfs_share   /mnt/raid/   nfs   rw,sync,noatime   0   0"
     state: present
   when: 
     - ansible_virtualization_type != "docker"
-    - ansible_default_ipv4.address == vlan_infra
+    - ansible_default_ipv4.address.startswith(vlan_infra)
 
 # mount fstab
 - name: mount all filesystems in /etc/fstab
