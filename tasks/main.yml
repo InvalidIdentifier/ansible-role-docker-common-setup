@@ -109,11 +109,14 @@
     state: present
   when: 
     - ansible_virtualization_type != "docker"
-    - "'dmz' not in group_names"
+    - "'tag_dmz' not in group_names"
 
 # mount fstab
 - name: mount all filesystems in /etc/fstab
   ansible.builtin.command: mount -a
+  when: 
+  - ansible_virtualization_type != "docker"
+  - "'tag_dmz' not in group_names"
 
 # check if bindmount directory exists
 - name: check if bindmount directory exists
