@@ -110,6 +110,10 @@
   when: 
     - ansible_virtualization_type != "docker"
 
+# mount fstab
+- name: mount all filesystems in /etc/fstab
+  ansible.builtin.command: mount -a
+
 # check if bindmount directory exists
 - name: check if bindmount directory exists
   ansible.builtin.stat:
