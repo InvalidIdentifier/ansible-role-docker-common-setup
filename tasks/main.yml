@@ -110,6 +110,7 @@
   when: 
     - ansible_virtualization_type != "docker"
     - "'tag_dmz' not in group_names"
+    - inventory_hostname != "192.168.4.10"
 
 # mount fstab
 - name: mount all filesystems in /etc/fstab
